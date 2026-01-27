@@ -1,0 +1,20 @@
+---
+# Current release - uses the latest snapshot
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: test-release-sbomdiff-current
+  namespace: wrampazz-tenant
+spec:
+  snapshot: wrampazz-stage-app-20260126-042018-000
+  releasePlan: test-collectors-sbomdiff-compare
+---
+# Previous release - uses an older snapshot to trigger comparison
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: test-release-sbomdiff-previous
+  namespace: wrampazz-tenant
+spec:
+  snapshot: wrampazz-stage-app-20260124-122120-000
+  releasePlan: test-collectors-sbomdiff-compare

@@ -1,0 +1,37 @@
+---
+# Role granting permissions needed by the run-collectors pipeline
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: test-collectors-runner
+  namespace: wrampazz-tenant
+rules:
+  - apiGroups: ["appstudio.redhat.com"]
+    resources: ["releases", "releaseplans", "releaseplanadmissions"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["appstudio.redhat.com"]
+    resources: ["snapshots"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["secrets", "configmaps"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["tekton.dev"]
+    resources: ["pipelineruns"]
+    verbs: ["get", "list", "watch"]
+---
+# RoleBinding granting permissions to the build service account
+# Note: build-pipeline-stage-app-a31cb is used because it matches
+# the ACS M2M rule pattern: system:serviceaccount:.*-tenant:build.*
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: test-collectors-runner
+  namespace: wrampazz-tenant
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: test-collectors-runner
+subjects:
+  - kind: ServiceAccount
+    name: build-pipeline-stage-app-a31cb
+    namespace: wrampazz-tenant
