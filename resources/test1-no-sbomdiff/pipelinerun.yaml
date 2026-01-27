@@ -1,0 +1,43 @@
+---
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: test-run-collectors-no-sbomdiff-
+  namespace: wrampazz-tenant
+  labels:
+    tekton.dev/pipeline: run-collectors
+    test.konflux.dev/case: no-sbomdiff
+spec:
+  taskRunTemplate:
+    serviceAccountName: build-pipeline-stage-app-a31cb
+  pipelineRef:
+    resolver: git
+    params:
+      - name: url
+        value: https://github.com/konflux-ci/release-service-catalog.git
+      - name: revision
+        value: development
+      - name: pathInRepo
+        value: pipelines/run-collectors/run-collectors.yaml
+  params:
+    - name: release
+      value: wrampazz-tenant/test-release-no-sbomdiff
+    - name: previousRelease
+      value: ""
+    - name: collectorsResourceType
+      value: releaseplan
+    - name: collectorsResource
+      value: wrampazz-tenant/test-collectors-no-sbomdiff
+    - name: taskGitRevision
+      value: development
+    - name: collectorsRepositoryRevision
+      value: main
+  workspaces:
+    - name: release-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi

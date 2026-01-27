@@ -1,0 +1,16 @@
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: ReleasePlan
+metadata:
+  name: test-collectors-sbomdiff-compare
+  namespace: wrampazz-tenant
+  labels:
+    release.appstudio.openshift.io/auto-release: "false"
+spec:
+  application: wrampazz-stage-app
+  target: wrampazz-tenant
+  collectors:
+    items:
+      - type: sbomdiff
+        name: test-sbomdiff-compare
+        params: []

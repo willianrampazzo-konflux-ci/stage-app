@@ -1,0 +1,9 @@
+---
+apiVersion: appstudio.redhat.com/v1alpha1
+kind: Release
+metadata:
+  name: test-release-with-sbomdiff
+  namespace: wrampazz-tenant
+spec:
+  snapshot: wrampazz-stage-app-20260126-042018-000
+  releasePlan: test-collectors-with-sbomdiff
